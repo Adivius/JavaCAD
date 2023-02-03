@@ -1,12 +1,14 @@
-public class FigurePillar extends Figure{
+import java.awt.event.KeyEvent;
+
+public class FigurePillar extends Figure {
 
     public FigurePillar(Cadpen pen) {
         super(pen);
-        key = '5';
+        key = KeyEvent.VK_5;
     }
 
     @Override
     public void draw(int dir) {
-        pen.zeichneKreis(pen.wight * 2);
+        pen.drawCircle(pen.width * 2);
     }
 }

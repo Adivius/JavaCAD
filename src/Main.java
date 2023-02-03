@@ -1,20 +1,41 @@
-import sum.kern.Fenster;
-import sum.kern.Maus;
-import sum.kern.Tastatur;
-
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 public class Main {
 
-    public Fenster screen;
+    public Screen screen;
     public Cadpen pen;
-    public Maus mouse;
-    public Tastatur keyboard;
-    public HashMap<Character, Figure> figures;
+    public HashMap<Integer, Figure> figures;
     public FigureWall defaultFigure;
     public Figure currentFigure;
 
-    private void initialFigures(){
+    public Main() {
+        screen = new Screen(1600, 900, "CAD");
+        pen = new Cadpen(screen, Consts.SIZE, 2);
+        figures = new HashMap<>();
+        defaultFigure = new FigureWall(pen);
+        currentFigure = defaultFigure;
+        initialFigures();
+
+        while (true) {
+            screen.sleep(10);
+            tickPen();
+            tickMouse();
+            tickKeyboard();
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            Main main = new Main();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+
+    private void initialFigures() {
         FigureWall figureWall = new FigureWall(pen);
         figures.put(figureWall.getKey(), figureWall);
         FigureWindow figureWindow = new FigureWindow(pen);
@@ -27,73 +48,48 @@ public class Main {
         figures.put(figurePillar.getKey(), figurePillar);
     }
 
-    public Main(){
-        screen = new Fenster(1600, 900, "CAD");
-        mouse = new Maus();
-        keyboard = new Tastatur();
-        pen = new Cadpen(Consts.SIZE, 2);
-        figures = new HashMap<>();
-        defaultFigure = new FigureWall(pen);
-        currentFigure = defaultFigure;
-        initialFigures();
-        for (;!!true;){
-            tickPen();
-            tickMouse();
-            tickKeyboard();
-        }
-    }
-
-
-    public void tickMouse(){
-        if (mouse.istGedrueckt()){
+    public void tickMouse() {
+        if (screen.cMousePressed) {
             pen.draw(currentFigure);
-            while (mouse.istGedrueckt());
+            while (screen.cMousePressed) {
+                screen.sleep(10);
+            }
         }
-
-
     }
 
-    public void tickPen(){
-        int x = mouse.hPosition() - mouse.hPosition() % (10 * Consts.SIZE);
-        int y = mouse.vPosition() - mouse.vPosition() % (10 * Consts.SIZE);
-        pen.bewegeBis(x, y);
-        pen.wechsle();
+    public void tickPen() {
+        int x = screen.cMouseXPos - screen.cMouseXPos % (20 * Consts.SIZE);
+        int y = screen.cMouseYPos - screen.cMouseYPos % (20 * Consts.SIZE);
+        pen.moveTo(x, y);
+        pen.setModeSwitch();
         pen.draw(currentFigure);
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        screen.sleep(100);
         pen.draw(currentFigure);
-        pen.normal();
-
+        pen.setModeNormal();
     }
 
-    public void tickKeyboard(){
-        if (!keyboard.wurdeGedrueckt()){
+    public void tickKeyboard() {
+        if (!screen.cKeyboardPressed) {
             return;
         }
-        switch(keyboard.zeichen()){
-            case 'x':
-                screen.gibFrei();
+        switch (screen.cKeyId) {
+            case KeyEvent.VK_Y:
+                screen.clear();
                 break;
-            case 'y':
-                screen.loescheAlles();
+            case KeyEvent.VK_X:
+                screen.release();
                 break;
-            case ' ':
-                pen.dreheUm(Consts.ROTATION);
+            case KeyEvent.VK_SPACE:
+                pen.rotateBy(Consts.ROTATION);
                 break;
             default:
-                if (figures.containsKey(keyboard.zeichen())){
-                    currentFigure = figures.getOrDefault(keyboard.zeichen(), defaultFigure);
+                if (figures.containsKey(screen.cKeyId)) {
+                    currentFigure = figures.getOrDefault(screen.cKeyId, defaultFigure);
                 }
                 break;
         }
-
-        keyboard.weiter();
-    }
-
-    public static void main(String[] args) {
-        Main D = new Main();
+        while (screen.cKeyboardPressed) {
+            screen.sleep(10);
+        }
     }
 }

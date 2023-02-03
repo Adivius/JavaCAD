@@ -1,8 +1,10 @@
-public class FigureDoor extends Figure{
+import java.awt.event.KeyEvent;
+
+public class FigureDoor extends Figure {
 
     public FigureDoor(Cadpen pen) {
         super(pen);
-        key = '3';
+        key = KeyEvent.VK_3;
     }
 
     @Override
@@ -10,14 +12,14 @@ public class FigureDoor extends Figure{
         Situation temp = pen.getSituation();
         pen.bewegeUm(pen.length / 2, false, Consts.LEFT - dir);
         Situation mid = pen.getSituation();
-        pen.bewegeUm(pen.wight / 2, true, Consts.DOWN - dir);
-        pen.bewegeUm(pen.wight, true, Consts.UP - dir);
+        pen.bewegeUm(pen.width / 2, true, Consts.DOWN - dir);
+        pen.bewegeUm(pen.width, true, Consts.UP - dir);
         pen.bewegeUm(pen.length, false, Consts.RIGHT - dir);
-        pen.bewegeUm(pen.wight, true, Consts.DOWN - dir);
-        pen.bewegeUm(pen.wight / 2, false, Consts.LEFT - dir);
-        pen.runter();
+        pen.bewegeUm(pen.width, true, Consts.DOWN - dir);
+        pen.bewegeUm(pen.width / 2, false, Consts.LEFT - dir);
+        pen.down();
         pen.setSituation(mid);
-        pen.hoch();
+        pen.up();
         pen.setSituation(temp);
     }
 }

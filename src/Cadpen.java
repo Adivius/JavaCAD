@@ -1,48 +1,47 @@
-import sum.kern.Buntstift;
-
-public class Cadpen extends Buntstift {
+public class Cadpen extends Pen {
 
     public int size;
     public int length;
-    public int wight;
+    public int width;
 
-    public Cadpen(int size, int thickness) {
+    public Cadpen(Screen screen, int size, int thickness) {
+        super(screen);
         this.size = size * Consts.LENGTH_SIZE;
-        this.length = this.size;
-        this.wight = length / 4;
-        setzeLinienBreite(thickness);
+        this.length = this.size / 2;
+        this.width = length / 4;
+        this.setThickness(thickness);
     }
 
     public void draw(Figure figure) {
-        figure.draw((int)winkel());
+        figure.draw(getAngle());
     }
 
 
     public void bewegeUm(double distance, boolean draw, int dir) {
-        double penDir = winkel();
-        boolean down = istUnten();
-        dreheBis(dir);
+        int penDir = getAngle();
+        boolean down = cDrawing;
+        setAngle(dir);
         if (draw) {
-            runter();
+            down();
         } else {
-            hoch();
+            up();
         }
-        super.bewegeUm(distance);
-        dreheBis(penDir);
+        super.moveBy((int) distance);
+        setAngle(penDir);
         if (down) {
-            runter();
+            down();
         } else {
-            hoch();
+            up();
         }
     }
 
 
     Situation getSituation() {
-        return new Situation((int) hPosition(), (int) vPosition(), (int) winkel());
+        return new Situation(getXPos(), getYPos(), getAngle());
     }
 
     void setSituation(Situation situation) {
-        bewegeBis(situation.X, situation.Y);
-        dreheBis(situation.DIR);
+        moveTo(situation.X, situation.Y);
+        setAngle(situation.DIR);
     }
 }
