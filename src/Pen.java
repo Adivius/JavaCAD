@@ -17,10 +17,11 @@ public class Pen {
     public int cAngle;
     public Graphics2D g2d;
     public int cPaintMode;
+    public int cThickness;
 
     public Pen(Screen screen) {
         this.screen = screen;
-        initial2dGraphics();
+        init2DGraphics();
         this.resetToDefault();
     }
 
@@ -30,49 +31,67 @@ public class Pen {
         this.yPos = 0;
         this.cDrawing = false;
         this.cAngle = 0;
+        this.cThickness = 1;
     }
 
-    public void drawLine(int x1, int y1, int x2, int y2) {
-        g2d.draw(new Line2D.Double(x1, y1, x2, y2));
-    }
-
-    public void initial2dGraphics() {
+    public void init2DGraphics() {
         Graphics2D graphics2D = (Graphics2D) screen.getGraphicsFromPanel();
         graphics2D.setStroke(new BasicStroke(1.0F, 0, 0));
         graphics2D.setPaint(Color.BLACK);
         g2d = graphics2D;
     }
 
-    public Color getColor() {
-        return g2d.getColor();
+    public void drawLine(int x1, int y1, int x2, int y2) {
+        g2d.draw(new Line2D.Double(x1, y1, x2, y2));
     }
 
-    public void setAngle(int cAngle) {
-        this.cAngle = cAngle % 360;
+    public void drawTriangle(int length) {
+        boolean temp = this.cDrawing;
+        this.down();
+        for (int i = 0; i < 3; i++) {
+            this.moveBy(length);
+            this.rotateBy(-120);
+        }
+        this.cDrawing = temp;
     }
 
-    public void rotateBy(int angle){
-        this.setAngle(this.cAngle + angle);
+    public void drawCircle(int radius) {
+        g2d.draw(new Ellipse2D.Double(this.xPos - radius, this.yPos - radius, 2.0 * radius, 2.0 * radius));
     }
 
-    public void rotate(){
-        this.rotateBy(ROTATION_LEFT);
+    public void drawArc(int width, int height, int startAngle, int endAngle, int mode) {
+        g2d.draw(new Arc2D.Double(this.xPos, this.yPos, width, height, startAngle, endAngle, mode));
     }
 
-    public void setFont(Font font){
-        this.g2d.setFont(font);
+    public void drawRectangle(int width, int height, int arch) {
+        g2d.draw(new RoundRectangle2D.Double(this.xPos, this.yPos, width, height, arch, arch));
     }
 
-    public Font getFont(){
-        return this.g2d.getFont();
-    }
-
-    public void setColor(Color color) {
-        g2d.setColor(color);
+    public void drawRectangle(int width, int height) {
+        this.drawRectangle(width, height, 0);
     }
 
     public void write(String text) {
         g2d.drawString(text, this.xPos, this.yPos);
+    }
+
+    public void rotateBy(int angle) {
+        this.setAngle(this.cAngle + angle);
+    }
+
+    public void rotate() {
+        this.rotateBy(ROTATION_LEFT);
+    }
+
+    public void moveToMousePos() {
+        this.moveTo(screen.cMouseXPos, screen.cMouseYPos);
+    }
+
+    public void moveBy(int distance) {
+        double a = this.cAngle * Math.PI / 180.0;
+        double x = this.xPos + distance * Math.cos(a);
+        double y = this.yPos - distance * Math.sin(a);
+        this.moveTo((int) x, (int) y);
     }
 
     public void moveTo(int x, int y) {
@@ -91,55 +110,55 @@ public class Pen {
         this.cDrawing = false;
     }
 
+    public int getThickness() {
+        return cThickness;
+    }
+
     public void setThickness(int thickness) {
         g2d.setStroke(new BasicStroke((float) thickness, 0, 0));
+        this.cThickness = thickness;
     }
 
-    public void moveBy(int distance) {
-        double a = this.cAngle * Math.PI / 180.0;
-        double x = this.xPos + distance * Math.cos(a);
-        double y = this.yPos - distance * Math.sin(a);
-        this.moveTo((int) x, (int) y);
+    public Font getFont() {
+        return this.g2d.getFont();
     }
 
-
-    public void drawCircle(int radius) {
-        g2d.draw(new Ellipse2D.Double(this.xPos - radius, this.yPos - radius, 2.0 * radius, 2.0 * radius));
+    public void setFont(Font font) {
+        this.g2d.setFont(font);
     }
 
-
-
-    public void drawArc(int width, int height, int startAngle, int endAngle, int mode){
-        g2d.draw(new Arc2D.Double(this.xPos, this.yPos, width, height, startAngle, endAngle, mode));
+    public Color getColor() {
+        return g2d.getColor();
     }
 
-    public void drawRectangle(int width, int height, int arch) {
-        g2d.draw(new RoundRectangle2D.Double(this.xPos, this.yPos, width, height, arch, arch));
+    public void setColor(Color color) {
+        g2d.setColor(color);
     }
 
-    public void drawRectangle(int width, int height) {
-        this.drawRectangle(width, height, 0);
-    }
-
-    public void moveToMousePos(){
-        this.moveTo(screen.cMouseXPos, screen.cMouseYPos);
-    }
-
-    public void setModeNormal(){
+    public void setModeNormal() {
         this.cPaintMode = MODE_NORMAL;
         g2d.setPaintMode();
     }
-    public void setModeSwitch(){
+
+    public void setModeSwitch() {
         this.cPaintMode = MODE_SWITCH;
         g2d.setXORMode(screen.getBackgroundColor());
     }
 
-    public void setColorBackground(){
+    public int getPaintMode() {
+        return cPaintMode;
+    }
+
+    public void setColorBackground() {
         this.setColor(screen.getBackgroundColor());
     }
 
     public int getAngle() {
         return cAngle;
+    }
+
+    public void setAngle(int cAngle) {
+        this.cAngle = cAngle % 360;
     }
 
     public int getXPos() {
@@ -149,4 +168,5 @@ public class Pen {
     public int getYPos() {
         return yPos;
     }
+
 }

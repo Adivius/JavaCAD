@@ -8,19 +8,17 @@ import java.awt.event.MouseEvent;
 public class Screen extends JFrame {
 
 
-    private final JPanel panel;
+    public final JPanel panel;
     public int cKeyId;
     public boolean cKeyboardPressed;
     public boolean cMousePressed;
     public int cMouseXPos;
     public int cMouseYPos;
-    private Color cBackgroundColor;
-    private int cHeight;
-    private int cWidth;
+    public int cHeight;
+    public int cWidth;
 
-    protected Screen(int width, int height, String title) {
+    public Screen(int width, int height, String title) {
         super(title);
-        this.cBackgroundColor = Color.white;
         this.cHeight = 0;
         this.cWidth = 0;
         this.panel = (JPanel) this.getContentPane();
@@ -52,28 +50,26 @@ public class Screen extends JFrame {
         this.panel.requestFocus();
     }
 
-    protected void sleep(int milliSeconds) {
-        try {
-            Thread.sleep(milliSeconds);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-
+    public void init2DGraphics() {
+        Graphics2D g2d = (Graphics2D) this.getGraphicsFromPanel();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.setComposite(AlphaComposite.getInstance(3, 1.0F));
     }
 
-    protected Graphics getGraphicsFromPanel() {
+    public Graphics getGraphicsFromPanel() {
         return this.panel.getGraphics();
     }
 
-    protected Color getBackgroundColor() {
+    public Color getBackgroundColor() {
         return this.panel.getBackground();
     }
 
     public void setBackgroundColor(Color color) {
         this.panel.setBackground(color);
         this.panel.getGraphics().clearRect(0, 0, this.cWidth, this.cHeight);
-        this.cBackgroundColor = color;
         this.panel.paintImmediately(this.panel.getBounds());
         this.panel.validate();
     }
@@ -96,21 +92,12 @@ public class Screen extends JFrame {
         this.exitProgram();
     }
 
-    protected void init2DGraphics() {
-        Graphics2D g2d = (Graphics2D) this.getGraphicsFromPanel();
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2d.setComposite(AlphaComposite.getInstance(3, 1.0F));
-    }
-
-    private void changeWindowSize() {
+    public void changeWindowSize() {
         this.changeSize(this.panel.getVisibleRect().width, this.panel.getVisibleRect().height);
 
     }
 
-    protected void changeSize(int x, int y) {
+    public void changeSize(int x, int y) {
         this.cWidth = x;
         this.cHeight = y;
     }
@@ -121,6 +108,36 @@ public class Screen extends JFrame {
 
     public JPanel getPanel() {
         return this.panel;
+    }
+
+    public boolean isKeyboardPressed() {
+        this.sleep(10);
+        return cKeyboardPressed;
+    }
+
+    public boolean isMousePressed() {
+        this.sleep(10);
+        return cMousePressed;
+    }
+
+    public int getMouseXPos() {
+        this.sleep(10);
+        return cMouseXPos;
+    }
+
+    public int getMouseYPos() {
+        this.sleep(10);
+        return cMouseYPos;
+    }
+
+    public void sleep(int milliSeconds) {
+        try {
+            Thread.sleep(milliSeconds);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 
     public class ListenerKeyboard extends KeyAdapter {
