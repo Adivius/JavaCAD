@@ -5,9 +5,12 @@ With JavaCAD you can draw simple blueprints in 2D.
 
 ## Usage
 
-    - Needs Java 8+
+    - Requires Java 8+
     - Run Main.java without any args
-    - Needs no more dependencies
+    - Requires no more dependencies
 
 ## Screenshots
+
+![Screenshot_0](https://github.com/Adivius/JavaCAD/blob/main/Screenshot_0.png?raw=true)
+![Screenshot_1](https://github.com/Adivius/JavaCAD/blob/main/Screenshot_1.png?raw=true)
 
