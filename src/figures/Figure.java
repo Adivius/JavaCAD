@@ -8,7 +8,7 @@ public abstract class Figure {
         this.pen = pen;
     }
 
-    public abstract void draw(int dir);
+    public abstract void draw(float dir);
 
     public int getKey() {
         return key;

@@ -8,7 +8,7 @@ public class FigurePillar extends Figure {
     }
 
     @Override
-    public void draw(int dir) {
+    public void draw(float dir) {
         pen.drawCircle(pen.width * 2);
     }
 }

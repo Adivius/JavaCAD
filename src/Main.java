@@ -58,8 +58,8 @@ public class Main {
     }
 
     public void tickPen() {
-        int x = screen.cMouseXPos - screen.cMouseXPos % (20 * Consts.SIZE);
-        int y = screen.cMouseYPos - screen.cMouseYPos % (20 * Consts.SIZE);
+        float x = screen.cMouseXPos - screen.cMouseXPos % (20 * Consts.SIZE);
+        float y = screen.cMouseYPos - screen.cMouseYPos % (20 * Consts.SIZE);
         pen.moveTo(x, y);
         pen.setModeSwitch();
         pen.draw(currentFigure);

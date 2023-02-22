@@ -7,7 +7,7 @@ public class FigureCorner extends Figure {
     }
 
     @Override
-    public void draw(int dir) {
+    public void draw(float dir) {
         Situation temp = pen.getSituation();
         pen.bewegeUm(pen.width * 2, false, Consts.LEFT - dir);
         pen.bewegeUm(pen.width * 0.5, false, Consts.UP - dir);

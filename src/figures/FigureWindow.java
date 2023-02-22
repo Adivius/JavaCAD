@@ -8,7 +8,7 @@ public class FigureWindow extends Figure {
     }
 
     @Override
-    public void draw(int dir) {
+    public void draw(float dir) {
         Situation temp = pen.getSituation();
         pen.bewegeUm(pen.length / 2, true, Consts.LEFT - dir);
         pen.bewegeUm(pen.width / 2, true, Consts.UP - dir);

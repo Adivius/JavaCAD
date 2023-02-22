@@ -13,21 +13,21 @@ public class Cadpen extends Pen {
     }
 
     public void draw(Figure figure) {
-        figure.draw(getAngle());
+        figure.draw(getRotation());
     }
 
 
-    public void bewegeUm(double distance, boolean draw, int dir) {
-        int penDir = getAngle();
-        boolean down = cDrawing;
-        setAngle(dir);
+    public void bewegeUm(double distance, boolean draw, float dir) {
+        float penDir = getRotation();
+        boolean down = isDrawing();
+        setRotation(dir);
         if (draw) {
             down();
         } else {
             up();
         }
         super.moveBy((int) distance);
-        setAngle(penDir);
+        setRotation(penDir);
         if (down) {
             down();
         } else {
@@ -37,11 +37,11 @@ public class Cadpen extends Pen {
 
 
     Situation getSituation() {
-        return new Situation(getXPos(), getYPos(), getAngle());
+        return new Situation(getXPos(), getYPos(), getRotation());
     }
 
     void setSituation(Situation situation) {
         moveTo(situation.X, situation.Y);
-        setAngle(situation.DIR);
+        setRotation(situation.DIR);
     }
 }
