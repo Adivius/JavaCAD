@@ -10,13 +10,13 @@ public class FigureDoor extends Figure {
     @Override
     public void draw(float dir) {
         Situation temp = pen.getSituation();
-        pen.bewegeUm(pen.length / 2, false, Consts.LEFT - dir);
+        pen.moveBy(pen.length / 2, false, Consts.LEFT - dir);
         Situation mid = pen.getSituation();
-        pen.bewegeUm(pen.width / 2, true, Consts.DOWN - dir);
-        pen.bewegeUm(pen.width, true, Consts.UP - dir);
-        pen.bewegeUm(pen.length, false, Consts.RIGHT - dir);
-        pen.bewegeUm(pen.width, true, Consts.DOWN - dir);
-        pen.bewegeUm(pen.width / 2, false, Consts.LEFT - dir);
+        pen.moveBy(pen.width / 2, true, Consts.DOWN - dir);
+        pen.moveBy(pen.width, true, Consts.UP - dir);
+        pen.moveBy(pen.length, false, Consts.RIGHT - dir);
+        pen.moveBy(pen.width, true, Consts.DOWN - dir);
+        pen.moveBy(pen.width / 2, false, Consts.LEFT - dir);
         pen.down();
         pen.setSituation(mid);
         pen.up();

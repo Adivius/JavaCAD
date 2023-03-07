@@ -10,13 +10,13 @@ public class FigureWindow extends Figure {
     @Override
     public void draw(float dir) {
         Situation temp = pen.getSituation();
-        pen.bewegeUm(pen.length / 2, true, Consts.LEFT - dir);
-        pen.bewegeUm(pen.width / 2, true, Consts.UP - dir);
-        pen.bewegeUm(pen.width, true, Consts.DOWN - dir);
-        pen.bewegeUm(pen.length, false, Consts.RIGHT - dir);
-        pen.bewegeUm(pen.width, true, Consts.UP - dir);
+        pen.moveBy(pen.length / 2f, true, Consts.LEFT - dir);
+        pen.moveBy(pen.width / 2f, true, Consts.UP - dir);
+        pen.moveBy(pen.width, true, Consts.DOWN - dir);
+        pen.moveBy(pen.length, false, Consts.RIGHT - dir);
+        pen.moveBy(pen.width, true, Consts.UP - dir);
         pen.setSituation(temp);
-        pen.bewegeUm(pen.length / 2, true, Consts.RIGHT - dir);
+        pen.moveBy(pen.length / 2f, true, Consts.RIGHT - dir);
         pen.setSituation(temp);
     }
 }

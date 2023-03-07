@@ -17,7 +17,7 @@ public class Cadpen extends Pen {
     }
 
 
-    public void bewegeUm(double distance, boolean draw, float dir) {
+    public void moveBy(double distance, boolean draw, float dir) {
         float penDir = getRotation();
         boolean down = isDrawing();
         setRotation(dir);

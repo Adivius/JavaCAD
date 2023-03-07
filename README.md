@@ -6,8 +6,11 @@ With JavaCAD you can draw simple blueprints in 2D.
 ## Usage
 
     - Requires Java 8+
-    - Requires Graphite 1.2.3+
+    - Requires Graphite 1.4.0+
     - Run Main.java without any args
+    - Press 1 - 5 to switch current figure
+    - Press 'x' tp close the program
+    - Press 'c' to clear the screen
 
 ## Screenshots
 

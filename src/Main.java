@@ -63,8 +63,10 @@ public class Main {
         pen.moveTo(x, y);
         pen.setModeSwitch();
         pen.draw(currentFigure);
+        screen.redraw();
         screen.sleep(100);
         pen.draw(currentFigure);
+        screen.redraw();
         pen.setModeNormal();
     }
 
@@ -73,7 +75,7 @@ public class Main {
             return;
         }
         switch (screen.cKeyId) {
-            case KeyEvent.VK_Y:
+            case KeyEvent.VK_C:
                 screen.clear();
                 break;
             case KeyEvent.VK_X:
