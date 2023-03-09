@@ -17,3 +17,5 @@ With JavaCAD you can draw simple blueprints in 2D.
 ![Screenshot_0](https://github.com/Adivius/JavaCAD/blob/main/Screenshot_0.png?raw=true)
 ![Screenshot_1](https://github.com/Adivius/JavaCAD/blob/main/Screenshot_1.png?raw=true)
 
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
